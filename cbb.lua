@@ -26,13 +26,15 @@ local expect = require "cc.expect"
 --- - 3 for a Tier 3 supporter. 
 --- @field supporter number
 
---- @class ChatboxCommandEvent
+--- @class ChatboxCommandEventData
 --- @field event "command"
 --- @field user IngameUser
 --- @field command string
 --- @field args string[]
 --- @field ownerOnly boolean
 --- @field time string
+
+--- @alias ChatboxCommandEvent { [1]: "command", [2]: string, [3]: string, [4]: string[], [5]: ChatboxCommandEventData }
 
 --- @class cbb.Token A token from a command invocation.
 --- @field value string The value that the token carries.
@@ -46,7 +48,7 @@ local expect = require "cc.expect"
 --- @field replyMd fun(text: string) Replies with a raw markdown message.
 --- @field replyErr fun(msg: string, t: cbb.Token?) Points out an error.
 --- @field argTokens table<string, cbb.Token> The token each argument matched.
---- @field data ChatboxCommandEvent The raw event, as was seen.
+--- @field data ChatboxCommandEventData The raw event, as was seen.
 --- @field args table<string, any> The arguments that were set on the path.
 --- @field path cbb.Node[] The nodes that matched on the path.
 --- @field tokens cbb.Token[] The tokens that were used to match the path.
@@ -58,7 +60,7 @@ local expect = require "cc.expect"
 --- @field literal string? The literal value, if the type is a literal.
 
 --- @class cbb.Node A node on the command tree.
---- @field exeucte fun(ctx: cbb.Context)? The execution function
+--- @field execute fun(ctx: cbb.Context)? The execution function
 --- @field name string The name of the node argument.
 --- @field kwargs table The remaining arguments that were in the definition.
 --- @field children cbb.Node[] The node's children.
@@ -567,6 +569,7 @@ local function execute(root, name, event)
         argTokens = argTokens,
         path = path,
         user = user,
+        tokens = tokens,
     }
 
     return path[#path].execute(ctx)
