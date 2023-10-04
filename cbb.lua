@@ -39,7 +39,7 @@ local expect = require "cc.expect"
 --- @class cbb.Token A token from a command invocation.
 --- @field value string The value that the token carries.
 --- @field start number The first character on the stream where the token is.
---- @field finish number The last character on the strewm where the token is.
+--- @field finish number The last character on the stream where the token is.
 
 --- @class cbb.Context The context that is passed into the execute function.
 --- @field user string The sender username, as was seen in the event.
